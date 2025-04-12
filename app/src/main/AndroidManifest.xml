@@ -21,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".util.BattleActivity" />
         <activity android:name=".util.HomeActivity" />
         <activity android:name=".util.CreateActivity" />
         <activity android:name=".util.TrainerActivity" />
