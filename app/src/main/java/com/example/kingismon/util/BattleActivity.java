@@ -3,11 +3,14 @@ package com.example.kingismon.util;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,8 +27,9 @@ public class BattleActivity extends AppCompatActivity {
     private TextView playerHealthText, opponentHealthText;
     private TextView playerStatsText, opponentStatsText;
     private TextView battleLogText;
-    private Button nextAttackButton, superAttackButton, endBattleButton;
+    private Button nextAttackButton, superAttackButton, endBattleButton, startBattleButton;
     private ProgressBar playerHealthBar, opponentHealthBar;
+    private Spinner playerLutemonSpinner, opponentLutemonSpinner;
 
     private LUTemon playerLutemon;
     private LUTemon opponentLutemon;
@@ -35,6 +39,7 @@ public class BattleActivity extends AppCompatActivity {
 
     private boolean playerTurn = true;
     private boolean usedSuperAttack = false;
+    private boolean battleStarted = false;
     private Random random = new Random();
 
     @Override
@@ -45,11 +50,8 @@ public class BattleActivity extends AppCompatActivity {
         // Initialize UI components
         initializeUI();
 
-        // Select player and opponent Lutemons
-        selectLutemons();
-
-        // Setup initial UI state
-        setupInitialBattleState();
+        // Setup lutemon selection spinners
+        setupLutemonSpinners();
 
         // Set up button click listeners
         setupButtonListeners();
@@ -70,15 +72,126 @@ public class BattleActivity extends AppCompatActivity {
         endBattleButton = findViewById(R.id.endBattleButton);
         playerHealthBar = findViewById(R.id.playerHealthBar);
         opponentHealthBar = findViewById(R.id.opponentHealthBar);
+
+        // Add buttons for starting battle
+        startBattleButton = findViewById(R.id.startBattleButton);
+
+        // Add spinners for lutemon selection
+        playerLutemonSpinner = findViewById(R.id.playerLutemonSpinner);
+        opponentLutemonSpinner = findViewById(R.id.opponentLutemonSpinner);
+
+        // Disable battle buttons until battle starts
+        nextAttackButton.setEnabled(false);
+        superAttackButton.setEnabled(false);
+
+        // Clear battle log
+        battleLogText.setText("Select Lutemons to begin the battle!");
     }
 
-    private void selectLutemons() {
+    private void setupLutemonSpinners() {
         ArrayList<LUTemon> availableLutemons = GameManager.getInstance().getLUTemons();
 
-        // If no Lutemons are available, create some for demonstration
-        if (availableLutemons.isEmpty() || availableLutemons.size() < 2) {
-            playerLutemon = new FireLUTemon("Pinky");
+        // If no Lutemons available, create default ones
+        if (availableLutemons.isEmpty()) {
+            createDefaultLutemons();
+            availableLutemons = GameManager.getInstance().getLUTemons();
+            Toast.makeText(this, "No Lutemons found. Default Lutemons were created.", Toast.LENGTH_SHORT).show();
+        }
 
+        // Create a list of Lutemon names for the spinners
+        ArrayList<String> lutemonNames = new ArrayList<>();
+        for (LUTemon lutemon : availableLutemons) {
+            lutemonNames.add(lutemon.getName() + " (" + lutemon.getClass().getSimpleName() + ")");
+        }
+
+        // Add random opponent option
+        lutemonNames.add("Random Opponent");
+
+        // Create the spinner adapters
+        ArrayAdapter<String> playerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, lutemonNames);
+        playerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        playerLutemonSpinner.setAdapter(playerAdapter);
+
+        ArrayAdapter<String> opponentAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, lutemonNames);
+        opponentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        opponentLutemonSpinner.setAdapter(opponentAdapter);
+
+        // Default to Random Opponent
+        opponentLutemonSpinner.setSelection(lutemonNames.size() - 1);
+
+        // Set listeners for selection
+        ArrayList<LUTemon> finalAvailableLutemons = availableLutemons;
+        playerLutemonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position < finalAvailableLutemons.size()) {
+                    playerLutemon = finalAvailableLutemons.get(position);
+                    updatePlayerPreview();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+
+        opponentLutemonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position < finalAvailableLutemons.size()) {
+                    opponentLutemon = finalAvailableLutemons.get(position);
+                    updateOpponentPreview();
+                } else {
+                    // "Random Opponent" selected
+                    opponentLutemon = null;
+                    opponentNameText.setText("Random Opponent");
+                    opponentStatsText.setText("Stats will be revealed in battle");
+                    opponentImage.setImageResource(R.drawable.ic_launcher_foreground); // Default image
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+    }
+
+    private void createDefaultLutemons() {
+        GameManager.getInstance().addLUTemon(new FireLUTemon("Pinky"));
+        GameManager.getInstance().addLUTemon(new WaterLUTemon("Blue"));
+        GameManager.getInstance().addLUTemon(new GrassLUTemon("Leafy"));
+        GameManager.getInstance().addLUTemon(new ElectricLUTemon("Sparky"));
+        GameManager.getInstance().addLUTemon(new AirLUTemon("Windy"));
+    }
+
+    private void updatePlayerPreview() {
+        if (playerLutemon != null) {
+            playerImage.setImageResource(playerLutemon.getImageID());
+            playerNameText.setText(playerLutemon.getName());
+            playerStatsText.setText("ATK: " + playerLutemon.getAttack() +
+                    " DEF: " + playerLutemon.getDefense() +
+                    " EXP: " + playerLutemon.getLevel());
+        }
+    }
+
+    private void updateOpponentPreview() {
+        if (opponentLutemon != null) {
+            opponentImage.setImageResource(opponentLutemon.getImageID());
+            opponentNameText.setText(opponentLutemon.getName());
+            opponentStatsText.setText("ATK: " + opponentLutemon.getAttack() +
+                    " DEF: " + opponentLutemon.getDefense() +
+                    " EXP: " + opponentLutemon.getLevel());
+        }
+    }
+
+    private void selectRandomOpponent() {
+        ArrayList<LUTemon> availableLutemons = GameManager.getInstance().getLUTemons();
+
+        // If only one Lutemon available or player selected the only one, create a random opponent
+        if (availableLutemons.size() <= 1 ||
+                (availableLutemons.size() == 2 && availableLutemons.contains(playerLutemon))) {
             // Choose a random opponent type
             int opponentType = random.nextInt(5);
             switch (opponentType) {
@@ -99,62 +212,31 @@ public class BattleActivity extends AppCompatActivity {
                     break;
             }
         } else {
-            // Choose a random player Lutemon from available ones
-            int playerIndex = random.nextInt(availableLutemons.size());
-            playerLutemon = availableLutemons.get(playerIndex);
-
-            // Choose a different Lutemon for opponent
+            // Choose a different Lutemon from available ones (not the player's)
             int opponentIndex;
             do {
                 opponentIndex = random.nextInt(availableLutemons.size());
-            } while (opponentIndex == playerIndex && availableLutemons.size() > 1);
+            } while (availableLutemons.get(opponentIndex) == playerLutemon);
 
             opponentLutemon = availableLutemons.get(opponentIndex);
         }
-
-        // Save initial max HP values
-        playerMaxHP = playerLutemon.getHp();
-        opponentMaxHP = opponentLutemon.getHp();
-    }
-
-    private void setupInitialBattleState() {
-        // Set images
-        playerImage.setImageResource(playerLutemon.getImageID());
-        opponentImage.setImageResource(opponentLutemon.getImageID());
-
-        // Set names
-        playerNameText.setText(playerLutemon.getName());
-        opponentNameText.setText(opponentLutemon.getName());
-
-        // Update health displays
-        updateHealthDisplays();
-
-        // Set stats
-        playerStatsText.setText("ATK: " + playerLutemon.getAttack() +
-                " DEF: " + playerLutemon.getDefense() +
-                " EXP: " + playerLutemon.getLevel());
-
-        opponentStatsText.setText("ATK: " + opponentLutemon.getAttack() +
-                " DEF: " + opponentLutemon.getDefense() +
-                " EXP: " + opponentLutemon.getLevel());
-
-        // Clear battle log
-        battleLogText.setText("Battle begins! " + playerLutemon.getName() + " vs " + opponentLutemon.getName());
-
-        // Configure health bars
-        playerHealthBar.setMax(playerMaxHP);
-        playerHealthBar.setProgress(playerLutemon.getHp());
-
-        opponentHealthBar.setMax(opponentMaxHP);
-        opponentHealthBar.setProgress(opponentLutemon.getHp());
-
-        // Enable/disable buttons
-        nextAttackButton.setEnabled(true);
-        superAttackButton.setEnabled(true);
-        endBattleButton.setEnabled(true);
     }
 
     private void setupButtonListeners() {
+        startBattleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startBattle();
+                // Hide spinners and start button
+                playerLutemonSpinner.setVisibility(View.GONE);
+                opponentLutemonSpinner.setVisibility(View.GONE);
+                startBattleButton.setVisibility(View.GONE);
+                // Enable battle buttons
+                nextAttackButton.setEnabled(true);
+                superAttackButton.setEnabled(true);
+            }
+        });
+
         nextAttackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,6 +263,39 @@ public class BattleActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void startBattle() {
+        // Check if we need to select a random opponent
+        if (opponentLutemon == null) {
+            selectRandomOpponent();
+        }
+
+        // Update opponent UI
+        opponentImage.setImageResource(opponentLutemon.getImageID());
+        opponentNameText.setText(opponentLutemon.getName());
+        opponentStatsText.setText("ATK: " + opponentLutemon.getAttack() +
+                " DEF: " + opponentLutemon.getDefense() +
+                " EXP: " + opponentLutemon.getLevel());
+
+        // Save initial max HP values
+        playerMaxHP = playerLutemon.getHp();
+        opponentMaxHP = opponentLutemon.getHp();
+
+        // Configure health bars
+        playerHealthBar.setMax(playerMaxHP);
+        playerHealthBar.setProgress(playerLutemon.getHp());
+        opponentHealthBar.setMax(opponentMaxHP);
+        opponentHealthBar.setProgress(opponentLutemon.getHp());
+
+        // Update health displays
+        updateHealthDisplays();
+
+        // Set battle started flag
+        battleStarted = true;
+
+        // Update battle log
+        battleLogText.setText("Battle begins! " + playerLutemon.getName() + " vs " + opponentLutemon.getName());
     }
 
     private void performNextAttack(boolean isSuperAttack) {
