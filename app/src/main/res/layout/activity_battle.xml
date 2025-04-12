@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".util.BattleActivity">
+
+    <!-- Battle Title -->
+    <TextView
+        android:id="@+id/battleTitleText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_purple"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="BATTLE"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Battle Arena -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/battleArenaCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/nextAttackButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/battleTitleText">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <!-- Player Section -->
+            <ImageView
+                android:id="@+id/playerImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@android:color/holo_red_light"
+                android:padding="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/playerNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Pinky"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/playerImage"
+                app:layout_constraintTop_toBottomOf="@+id/playerImage" />
+
+            <ProgressBar
+                android:id="@+id/playerHealthBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:progressTint="@android:color/holo_green_dark"
+                app:layout_constraintEnd_toEndOf="@+id/playerImage"
+                app:layout_constraintStart_toStartOf="@+id/playerNameText"
+                app:layout_constraintTop_toBottomOf="@+id/playerNameText" />
+
+            <TextView
+                android:id="@+id/playerHealthText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HP: 18/18"
+                app:layout_constraintStart_toStartOf="@+id/playerHealthBar"
+                app:layout_constraintTop_toBottomOf="@+id/playerHealthBar" />
+
+            <TextView
+                android:id="@+id/playerStatsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ATK: 7 DEF: 2 EXP: 0"
+                app:layout_constraintStart_toStartOf="@+id/playerHealthText"
+                app:layout_constraintTop_toBottomOf="@+id/playerHealthText" />
+
+            <!-- VS Text -->
+            <TextView
+                android:id="@+id/vsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VS"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/playerImage"
+                app:layout_constraintEnd_toStartOf="@+id/opponentImage"
+                app:layout_constraintStart_toEndOf="@+id/playerImage"
+                app:layout_constraintTop_toTopOf="@+id/playerImage" />
+
+            <!-- Opponent Section -->
+            <ImageView
+                android:id="@+id/opponentImage"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@android:color/black"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/opponentNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Black Knight"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/opponentImage"
+                app:layout_constraintTop_toBottomOf="@+id/opponentImage" />
+
+            <ProgressBar
+                android:id="@+id/opponentHealthBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:progressTint="@android:color/holo_green_dark"
+                app:layout_constraintEnd_toEndOf="@+id/opponentImage"
+                app:layout_constraintStart_toStartOf="@+id/opponentNameText"
+                app:layout_constraintTop_toBottomOf="@+id/opponentNameText" />
+
+            <TextView
+                android:id="@+id/opponentHealthText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HP: 9/16"
+                app:layout_constraintStart_toStartOf="@+id/opponentHealthBar"
+                app:layout_constraintTop_toBottomOf="@+id/opponentHealthBar" />
+
+            <TextView
+                android:id="@+id/opponentStatsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ATK: 9 DEF: 0 EXP: 0"
+                app:layout_constraintStart_toStartOf="@+id/opponentHealthText"
+                app:layout_constraintTop_toBottomOf="@+id/opponentHealthText" />
+
+            <!-- Battle arrow -->
+            <ImageView
+                android:id="@+id/battleArrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_media_play"
+                android:rotation="180"
+                android:tint="@android:color/holo_red_dark"
+                app:layout_constraintBottom_toBottomOf="@+id/vsText"
+                app:layout_constraintEnd_toStartOf="@+id/vsText"
+                app:layout_constraintStart_toEndOf="@+id/playerImage"
+                app:layout_constraintTop_toTopOf="@+id/vsText" />
+
+            <!-- Battle Log -->
+            <TextView
+                android:id="@+id/battleLogText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="24dp"
+                android:background="#F5F5F5"
+                android:padding="8dp"
+                android:text="Pinky(Pinky) attacks Black(Black Knight)\nBlack(Black Knight) manages to escape death.\nBlack(Black Knight) health: 9/16\nPinky(Pinky) health: 18/18"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/playerStatsText" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Next Attack Button -->
+    <Button
+        android:id="@+id/nextAttackButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@android:color/holo_purple"
+        android:padding="12dp"
+        android:text="Next Attack"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/superAttackButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Super Attack Button -->
+    <Button
+        android:id="@+id/superAttackButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@android:color/holo_orange_dark"
+        android:padding="12dp"
+        android:text="Super Attack"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/endBattleButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- End Battle Button -->
+    <Button
+        android:id="@+id/endBattleButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        android:padding="12dp"
+        android:text="End Battle"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
