@@ -189,6 +189,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Black Knight"
+                android:textColor="#48444E"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/opponentImage"
                 app:layout_constraintTop_toBottomOf="@+id/opponentImage" />

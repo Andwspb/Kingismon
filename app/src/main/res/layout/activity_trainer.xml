@@ -62,20 +62,23 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:backgroundTint="#FB8421"
-        android:text="Train LUTemon" />
+        android:text="Train LUTemon"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/homeButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#FB8421"
-        android:text="Send Home" />
+        android:text="Send Home"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/backButtonTrain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#FB8421"
-        android:text="Back" />
+        android:text="Back"
+        android:textColor="@color/white" />
 
 </LinearLayout>
