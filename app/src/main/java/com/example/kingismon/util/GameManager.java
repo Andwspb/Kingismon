@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GameManager {
     private static GameManager instance;
@@ -153,6 +154,22 @@ public class GameManager {
 
     public ArrayList<LUTemon> getLUTemons() {
         return lutemons;
+    }
+
+    public ArrayList<LUTemon> getAvailableLUTemons() {
+        // Get a copy of all LUTemons
+        ArrayList<LUTemon> displayedLUT = lutemons;
+
+        // Filter out LUTemons that are in training
+        Iterator<LUTemon> iterator = displayedLUT.iterator();
+        while (iterator.hasNext()) {
+            LUTemon lutemon = iterator.next();
+            if (trainers.contains(lutemon)) {
+                iterator.remove();
+            }
+        }
+
+        return displayedLUT;
     }
 
     public ArrayList<LUTemon> getTrainers() {

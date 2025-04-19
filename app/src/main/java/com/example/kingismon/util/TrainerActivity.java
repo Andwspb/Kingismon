@@ -190,7 +190,7 @@ public class TrainerActivity extends AppCompatActivity {
         }
     }
 
-    // Get text describing training status
+    // Get text describing training status and remaining cooldown
     private String getTrainingStatusText(LUTemon lutemon) {
         long currentTime = System.currentTimeMillis();
         long lastTrainedTime = lutemon.getLastTrainedTime();

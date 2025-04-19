@@ -60,6 +60,7 @@ public abstract class LUTemon {
         return hp;
     }
 
+
     public int getAttack() {
         return attack;
     }
@@ -71,6 +72,7 @@ public abstract class LUTemon {
     public int getImageID() {
         return imageID;
     }
+
 
     // Used for timer implementation
     private long lastTrainedTime = 0;
