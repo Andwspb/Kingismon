@@ -10,8 +10,8 @@ public class GrassLUTemon extends LUTemon {
     private int natureEnergy;
 
     public GrassLUTemon(String name) {
-        super(name, 0, 19, 6, 3, R.drawable.img_4, "grass");
-        this.natureEnergy = 12; // Default value for natureEnergy
+        super(name, 19, 6, 3, R.drawable.img_4, "grass");
+        this.natureEnergy = getAttack() + 2*getLevel(); // Default value for natureEnergy
     }
 
     public GrassLUTemon(JSONObject lutemon) {
@@ -23,12 +23,13 @@ public class GrassLUTemon extends LUTemon {
         }
     }
 
-    public int getNatureEnergy() {
-        return natureEnergy;
+    @Override
+    public String getSpecialAttack() {
+        return "Nature Energy: " + natureEnergy;
     }
 
     public void specialAttack(LUTemon opponent) {
-        int damage = (this.natureEnergy * 2) + (opponent.getHp() / 4) - opponent.getDefense();
+        int damage = (natureEnergy) - opponent.getDefense();
         if (damage < 0) {
             damage = 0;
         }

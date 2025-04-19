@@ -11,8 +11,8 @@ public class FireLUTemon extends LUTemon {
     private int firePower;
 
     public FireLUTemon(String name) {
-        super(name, 0, 17, 8, 1, R.drawable.img_1, "fire");
-        this.firePower = 16; // Default value for firePower
+        super(name, 17, 8, 1, R.drawable.img_1, "fire");
+        this.firePower = getAttack() + 2*getLevel();; // Default value for firePower
     }
 
     public FireLUTemon(JSONObject lutemon) {
@@ -24,12 +24,15 @@ public class FireLUTemon extends LUTemon {
         }
     }
 
-    public int getFirePower() {
-        return firePower;
+
+
+    @Override
+    public String getSpecialAttack() {
+        return "Fire Power: " + firePower;
     }
 
     public void specialAttack(LUTemon opponent) {
-        int damage = (this.firePower * 2) + (opponent.getHp() / 4) - opponent.getDefense();
+        int damage = (firePower) - opponent.getDefense();
         if (damage < 0) {
             damage = 0;
         }

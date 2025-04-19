@@ -11,8 +11,8 @@ public class WaterLUTemon extends LUTemon {
     private int waterFlow;
 
     public WaterLUTemon(String name) {
-        super(name, 0, 20, 5, 4, R.drawable.img_2, "water");
-        this.waterFlow = 10;
+        super(name, 20, 5, 4, R.drawable.img_2, "water");
+        this.waterFlow = getAttack() + 2*getLevel();;
     }
 
     public WaterLUTemon(JSONObject lutemon) {
@@ -23,13 +23,14 @@ public class WaterLUTemon extends LUTemon {
             throw new RuntimeException(e);
         }
     }
-    public int getWaterFlow() {
-        return waterFlow;
+    @Override
+    public String getSpecialAttack() {
+        return "Water Flow: " + waterFlow;
     }
 
 
     public void specialAttack(LUTemon opponent) {
-        int damage = (this.waterFlow * 2) + (opponent.getHp() / 4) - opponent.getDefense();
+        int damage = (waterFlow) + opponent.getHp() - opponent.getDefense();
         if (damage < 0) {
             damage = 0;
         }

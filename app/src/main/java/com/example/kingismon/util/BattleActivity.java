@@ -18,6 +18,8 @@ import com.example.kingismon.R;
 import com.example.kingismon.model.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class BattleActivity extends AppCompatActivity {
@@ -38,11 +40,15 @@ public class BattleActivity extends AppCompatActivity {
     private int playerMaxHP;
     private int opponentMaxHP;
 
+    // Store original HP values
+    private int originalPlayerHP;
+    private int originalOpponentHP;
+
     // Game state variables
     private boolean playerTurn = true;
-    private boolean usedSuperAttack = false;
+    private boolean playerUsedSuperAttack = false;
+    private boolean opponentUsedSuperAttack = false;
     private boolean battleStarted = false;
-    private Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,15 +209,15 @@ public class BattleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 performNextAttack(true);
-                // Disable super attack button after use
-                superAttackButton.setEnabled(false);
-                usedSuperAttack = true;
             }
         });
 
         endBattleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Restore original HP values before ending the battle
+                restoreOriginalHP();
+
                 // Return to main activity
                 Intent intent = new Intent(BattleActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -224,6 +230,10 @@ public class BattleActivity extends AppCompatActivity {
         // Make battle arrow visible and show current turn
         battleArrow.setVisibility(View.VISIBLE);
         updateBattleArrow();
+
+        // Store original HP values
+        originalPlayerHP = playerLutemon.getHp();
+        originalOpponentHP = opponentLutemon.getHp();
 
         // Save initial max HP values
         playerMaxHP = playerLutemon.getHp();
@@ -258,7 +268,7 @@ public class BattleActivity extends AppCompatActivity {
             // Player's turn
             int previousOpponentHp = opponentLutemon.getHp();
 
-            if (isSuperAttack) {
+            if (isSuperAttack && !playerUsedSuperAttack) {
                 // Perform super attack based on player Lutemon type
                 if (playerLutemon instanceof FireLUTemon) {
                     ((FireLUTemon) playerLutemon).specialAttack(opponentLutemon);
@@ -276,6 +286,7 @@ public class BattleActivity extends AppCompatActivity {
                     ((AirLUTemon) playerLutemon).specialAttack(opponentLutemon);
                     attackLog = playerLutemon.getName() + " uses AIR SPECIAL ATTACK on " + opponentLutemon.getName() + "!";
                 }
+                playerUsedSuperAttack = true;
             } else {
                 // Regular attack
                 playerLutemon.attack(opponentLutemon);
@@ -284,7 +295,6 @@ public class BattleActivity extends AppCompatActivity {
 
             // Calculate damage
             int damage = previousOpponentHp - opponentLutemon.getHp();
-
 
             // Add damage info to log
             if (damage > 0) {
@@ -297,9 +307,16 @@ public class BattleActivity extends AppCompatActivity {
             if (opponentLutemon.getHp() <= 0) {
                 attackLog += "\n" + opponentLutemon.getName() + " has fainted! " + playerLutemon.getName() + " wins!";
 
+                playerLutemon.increaseBattles();
+                playerLutemon.increaseWins();
+                opponentLutemon.increaseBattles();
+
                 // Disable attack buttons
                 nextAttackButton.setEnabled(false);
                 superAttackButton.setEnabled(false);
+
+                // Restore original HP values when battle ends
+                restoreOriginalHP();
             } else {
                 // Switch turn
                 playerTurn = false;
@@ -309,7 +326,7 @@ public class BattleActivity extends AppCompatActivity {
             // Opponent's turn
             int previousPlayerHp = playerLutemon.getHp();
 
-            if (isSuperAttack) {
+            if (isSuperAttack && !opponentUsedSuperAttack) {
                 // Perform super attack based on opponent Lutemon type
                 if (opponentLutemon instanceof FireLUTemon) {
                     ((FireLUTemon) opponentLutemon).specialAttack(playerLutemon);
@@ -327,8 +344,7 @@ public class BattleActivity extends AppCompatActivity {
                     ((AirLUTemon) opponentLutemon).specialAttack(playerLutemon);
                     attackLog = opponentLutemon.getName() + " uses AIR SPECIAL ATTACK on " + playerLutemon.getName() + "!";
                 }
-                usedSuperAttack = true;
-                superAttackButton.setEnabled(false);
+                opponentUsedSuperAttack = true;
             } else {
                 // Regular attack
                 opponentLutemon.attack(playerLutemon);
@@ -337,7 +353,6 @@ public class BattleActivity extends AppCompatActivity {
 
             // Calculate damage
             int damage = previousPlayerHp - playerLutemon.getHp();
-
 
             // Add damage info to log
             if (damage > 0) {
@@ -349,10 +364,16 @@ public class BattleActivity extends AppCompatActivity {
             // Check if player fainted
             if (playerLutemon.getHp() <= 0) {
                 attackLog += "\n" + playerLutemon.getName() + " has fainted! " + opponentLutemon.getName() + " wins!";
+                playerLutemon.increaseBattles();
+                opponentLutemon.increaseBattles();
+                opponentLutemon.increaseWins();
 
                 // Disable attack buttons
                 nextAttackButton.setEnabled(false);
                 superAttackButton.setEnabled(false);
+
+                // Restore original HP values when battle ends
+                restoreOriginalHP();
             } else {
                 // Switch turn back to player
                 playerTurn = true;
@@ -367,6 +388,32 @@ public class BattleActivity extends AppCompatActivity {
         updateHealthDisplays();
         updateStatsDisplay();
         updateBattleArrow();
+    }
+
+    // Restore original HP values after battle
+    private void restoreOriginalHP() {
+        if (playerLutemon != null && opponentLutemon != null) {
+            // Restore HP to original values for GameManager references
+            for (LUTemon lutemon : GameManager.getInstance().getLUTemons()) {
+                if (lutemon.getName().equals(playerLutemon.getName())) {
+                    // Only preserve level gains, reset HP to original
+                    lutemon.takeDamage(0); // Reset any temporary damage-related stats
+                    while (lutemon.getHp() < originalPlayerHP) {
+                        lutemon.getClass().cast(lutemon).takeDamage(-1); // Heal by increasing HP
+                    }
+                }
+                if (lutemon.getName().equals(opponentLutemon.getName())) {
+                    // Only preserve level gains, reset HP to original
+                    lutemon.takeDamage(0); // Reset any temporary damage-related stats
+                    while (lutemon.getHp() < originalOpponentHP) {
+                        lutemon.getClass().cast(lutemon).takeDamage(-1); // Heal by increasing HP
+                    }
+                }
+            }
+
+            // Save the updated state
+            GameManager.getInstance().saveStateToJson();
+        }
     }
 
     private void updateHealthDisplays() {
@@ -397,5 +444,12 @@ public class BattleActivity extends AppCompatActivity {
             // Arrow pointing from opponent to player (left direction)
             battleArrow.setRotation(180);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Restore original HP values when back button is pressed
+        restoreOriginalHP();
+        super.onBackPressed();
     }
 }

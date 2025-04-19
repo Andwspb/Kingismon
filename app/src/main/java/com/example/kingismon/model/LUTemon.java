@@ -12,6 +12,8 @@ import org.json.JSONObject;
 public abstract class LUTemon {
     private String name;
     private int level;
+    private int battles;
+    private int wins;
     private int hp;
     private int attack;
     private int defense;
@@ -20,15 +22,18 @@ public abstract class LUTemon {
 
     private String type;
 
+
     // Constructor
-    public LUTemon(String name, int level, int hp, int attack, int defense, int imageID, String type) {
+    public LUTemon(String name, int hp, int attack, int defense, int imageID, String type) {
         this.name = name;
-        this.level = level;
         this.hp = hp;
         this.attack = attack;
         this.defense = defense;
         this.imageID = imageID;
         this.type = type;
+        this.level = 0;
+        this.battles = 0;
+        this.wins = 0;
     }
 
     public LUTemon(JSONObject lutemon) {
@@ -65,8 +70,19 @@ public abstract class LUTemon {
         return attack;
     }
 
+    public String getSpecialAttack() {
+        return "No special attack";
+    }
+
     public int getDefense() {
         return defense;
+    }
+
+    public int getBattles() {
+        return battles;
+    }
+    public int getWins() {
+        return wins;
     }
 
     public int getImageID() {
@@ -93,6 +109,14 @@ public abstract class LUTemon {
         opponent.takeDamage(damage);
     }
 
+    // Increase the number of battles
+    public void increaseBattles() {
+        this.battles++;
+    }
+    // Increase the number of wins
+    public void increaseWins() {
+        this.wins++;
+    }
     // takeDamage function
     public void takeDamage(int damage) {
         this.hp -= damage;
@@ -117,6 +141,8 @@ public abstract class LUTemon {
                 "Level: " + level + "\n";
     }
 
+
+
     @NonNull
     public JSONObject toJson() {
         JSONObject lutemonJson = new JSONObject();
@@ -135,4 +161,7 @@ public abstract class LUTemon {
         }
         return new JSONObject();
     }
+
+
+
 }

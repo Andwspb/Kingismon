@@ -10,8 +10,8 @@ public class ElectricLUTemon extends LUTemon {
     private int electricStrike;
 
     public ElectricLUTemon(String name) {
-        super(name, 0, 16, 9, 1, R.drawable.img_5, "electric");
-        this.electricStrike = 18;
+        super(name, 16, 9, 1, R.drawable.img_5, "electric");
+        this.electricStrike = getAttack() + 2*getLevel();;
     }
 
     public ElectricLUTemon(JSONObject lutemon) {
@@ -23,12 +23,13 @@ public class ElectricLUTemon extends LUTemon {
         }
     }
 
-    public int getElectricStrike() {
-        return electricStrike;
+    @Override
+    public String getSpecialAttack() {
+        return "Electric Strike " + electricStrike;
     }
 
     public void specialAttack(LUTemon opponent) {
-        int damage = (this.electricStrike * 2) + (opponent.getHp() / 4) - opponent.getDefense();
+        int damage = (electricStrike) - opponent.getDefense();
         if (damage < 0) {
             damage = 0;
         }

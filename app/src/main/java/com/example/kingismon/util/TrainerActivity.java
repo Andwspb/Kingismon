@@ -182,7 +182,10 @@ public class TrainerActivity extends AppCompatActivity {
                             "Level: " + selectedLutemon.getLevel() + "\n" +
                             "HP: " + selectedLutemon.getHp() + "\n" +
                             "Attack: " + selectedLutemon.getAttack() + "\n" +
+                            selectedLutemon.getSpecialAttack() + "\n" +
                             "Defense: " + selectedLutemon.getDefense() + "\n" +
+                            "Battles: " + selectedLutemon.getBattles() + "\n" +
+                            "Wins: " + selectedLutemon.getWins() + "\n" +
                             getTrainingStatusText(selectedLutemon)
             );
         } else {
