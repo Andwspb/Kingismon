@@ -124,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Pinky"
+                android:textColor="#48444E"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/playerImage"
                 app:layout_constraintTop_toBottomOf="@+id/playerImage" />
@@ -144,6 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="HP: 18/18"
+                android:textColor="#BFBFBF"
                 app:layout_constraintStart_toStartOf="@+id/playerHealthBar"
                 app:layout_constraintTop_toBottomOf="@+id/playerHealthBar" />
 
@@ -152,6 +154,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ATK: 7 DEF: 2 EXP: 0"
+                android:textColor="#BFBFBF"
                 android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="@+id/playerHealthText"
                 app:layout_constraintTop_toBottomOf="@+id/playerHealthText" />
@@ -210,6 +213,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="HP: 9/16"
+                android:textColor="#BFBFBF"
                 app:layout_constraintStart_toStartOf="@+id/opponentHealthBar"
                 app:layout_constraintTop_toBottomOf="@+id/opponentHealthBar" />
 
@@ -218,6 +222,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ATK: 9 DEF: 0 EXP: 0"
+                android:textColor="#BFBFBF"
                 android:textSize="10sp"
                 app:layout_constraintStart_toStartOf="@+id/opponentHealthText"
                 app:layout_constraintTop_toBottomOf="@+id/opponentHealthText" />
