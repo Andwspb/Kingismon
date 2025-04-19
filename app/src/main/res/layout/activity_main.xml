@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".util.MainActivity">
 
     <TextView
@@ -12,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="KingisLutemon"
+        android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/homeButton"
@@ -26,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="108dp"
         android:layout_marginEnd="108dp"
+        android:backgroundTint="#FB8421"
         android:text="Battle Arena"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,6 +43,7 @@
         android:layout_marginStart="108dp"
         android:layout_marginEnd="108dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="#FB8421"
         android:text="Create New Lutemon"
         app:layout_constraintBottom_toTopOf="@+id/trainingAreaButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,6 +59,7 @@
         android:layout_marginTop="80dp"
         android:layout_marginEnd="108dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="#FD8521"
         android:text="Home"
         app:layout_constraintBottom_toTopOf="@+id/createNewLutemonButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,11 +74,26 @@
         android:layout_marginStart="108dp"
         android:layout_marginEnd="108dp"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="#FB8421"
         android:text="Training Area"
         app:layout_constraintBottom_toTopOf="@+id/battleArenaButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createNewLutemonButton" />
+
+    <ImageView
+        android:id="@+id/myImageView"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="122dp"
+        android:layout_marginBottom="42dp"
+        android:src="@drawable/my_image"
+        app:layout_constraintBottom_toTopOf="@+id/homeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

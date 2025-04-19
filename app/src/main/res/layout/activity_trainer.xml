@@ -1,28 +1,81 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/black"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <TextView android:id="@+id/trainingTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:text="Training Area" android:textSize="24sp" android:textStyle="bold" android:layout_marginBottom="16dp"/>
-    <TextView android:id="@+id/availableLutemonsLabel" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Available LUTemons:" android:textSize="18sp" android:layout_marginTop="8dp" android:layout_marginBottom="8dp"/>
-    <Spinner android:id="@+id/lutemonSpinner" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="16dp"/>
-    <TextView android:id="@+id/lutemonStatsLabel" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="LUTemon Stats:" android:textSize="18sp" android:layout_marginTop="16dp" android:layout_marginBottom="8dp"/>
-    <TextView android:id="@+id/lutemonStatsText" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Select a LUTemon to view stats" android:textSize="16sp" android:layout_marginBottom="24dp"/>
-    <Button android:id="@+id/trainButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Train LUTemon" android:layout_marginBottom="16dp"/>
+    <TextView
+        android:id="@+id/trainingTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="Training Area"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/availableLutemonsLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Available LUTemons:"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/lutemonSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/white"/>
+
+
+
+    <TextView
+        android:id="@+id/lutemonStatsLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="LUTemon Stats:"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/lutemonStatsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Select a LUTemon to view stats"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/trainButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#FB8421"
+        android:text="Train LUTemon" />
 
     <Button
         android:id="@+id/homeButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#FB8421"
         android:text="Send Home" />
 
     <Button
         android:id="@+id/backButtonTrain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#FB8421"
         android:text="Back" />
 
 </LinearLayout>

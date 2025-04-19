@@ -108,11 +108,11 @@ public class BattleActivity extends AppCompatActivity {
         lutemonNames.add("Random Opponent");
 
         // Create the spinner adapters
-        ArrayAdapter<String> playerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, lutemonNames);
+        ArrayAdapter<String> playerAdapter = new ArrayAdapter<>(this, R.layout.spinner_item_white, lutemonNames);
         playerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         playerLutemonSpinner.setAdapter(playerAdapter);
 
-        ArrayAdapter<String> opponentAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, lutemonNames);
+        ArrayAdapter<String> opponentAdapter = new ArrayAdapter<>(this, R.layout.spinner_item_white, lutemonNames);
         opponentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         opponentLutemonSpinner.setAdapter(opponentAdapter);
 

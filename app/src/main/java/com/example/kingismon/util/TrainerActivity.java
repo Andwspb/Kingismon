@@ -118,7 +118,7 @@ public class TrainerActivity extends AppCompatActivity {
     // Configure the spinner to display LUTemon names
     private void setupLutemonSpinner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, getLutemonNames());
+                this, R.layout.spinner_item_white, getLutemonNames());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         lutemonSpinner.setAdapter(adapter);
 
