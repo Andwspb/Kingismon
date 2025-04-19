@@ -1,5 +1,14 @@
 package com.example.kingismon.model;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public abstract class LUTemon {
     private String name;
     private int level;
@@ -9,14 +18,32 @@ public abstract class LUTemon {
 
     private int imageID;
 
+    private String type;
+
     // Constructor
-    public LUTemon(String name, int level, int hp, int attack, int defense, int imageID) {
+    public LUTemon(String name, int level, int hp, int attack, int defense, int imageID, String type) {
         this.name = name;
         this.level = level;
         this.hp = hp;
         this.attack = attack;
         this.defense = defense;
         this.imageID = imageID;
+        this.type = type;
+    }
+
+    public LUTemon(JSONObject lutemon) {
+        try {
+            this.name = (String)lutemon.get("name");
+            this.level = (int)lutemon.get("level");
+            this.hp = (int)lutemon.get("hp");
+            this.attack = (int)lutemon.get("attack");
+            this.defense = (int)lutemon.get("defense");
+            this.imageID = (int)lutemon.get("imageID");
+            this.lastTrainedTime = (long)lutemon.get("lastTrainedTime");
+            this.type = (String)lutemon.get("type");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -88,4 +115,22 @@ public abstract class LUTemon {
                 "Level: " + level + "\n";
     }
 
+    @NonNull
+    public JSONObject toJson() {
+        JSONObject lutemonJson = new JSONObject();
+        try {
+            lutemonJson.put("name", name);
+            lutemonJson.put("level", level);
+            lutemonJson.put("hp", hp);
+            lutemonJson.put("attack", attack);
+            lutemonJson.put("defense", defense);
+            lutemonJson.put("lastTrainedTime", lastTrainedTime);
+            lutemonJson.put("imageID", imageID);
+            lutemonJson.put("type", type);
+            return lutemonJson;
+        } catch (Exception e) {
+            Log.e(TAG, "Error converting LUTemon to JSON");
+        }
+        return new JSONObject();
+    }
 }

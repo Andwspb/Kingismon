@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
+        GameManager.getInstance();
 
         // Find all buttons
         homeButton = findViewById(R.id.homeButton);
