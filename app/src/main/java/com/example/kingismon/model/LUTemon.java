@@ -39,7 +39,7 @@ public abstract class LUTemon {
             this.attack = (int)lutemon.get("attack");
             this.defense = (int)lutemon.get("defense");
             this.imageID = (int)lutemon.get("imageID");
-            this.lastTrainedTime = (long)lutemon.get("lastTrainedTime");
+            this.lastTrainedTime = lutemon.get("lastTrainedTime").getClass() == Integer.class ? (int)lutemon.get("lastTrainedTime") : (long)lutemon.get("lastTrainedTime");
             this.type = (String)lutemon.get("type");
         } catch (JSONException e) {
             throw new RuntimeException(e);
