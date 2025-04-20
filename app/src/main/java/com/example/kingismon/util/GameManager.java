@@ -158,7 +158,7 @@ public class GameManager {
 
     public ArrayList<LUTemon> getAvailableLUTemons() {
         // Get a copy of all LUTemons
-        ArrayList<LUTemon> displayedLUT = lutemons;
+        ArrayList<LUTemon> displayedLUT = new ArrayList<>(lutemons);
 
         // Filter out LUTemons that are in training
         Iterator<LUTemon> iterator = displayedLUT.iterator();
